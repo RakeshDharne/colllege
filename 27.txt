@@ -1,0 +1,20 @@
+27_hard
+
+
+# Step 1: Create a test directory and file on host
+mkdir test_mount
+cd test_mount
+echo "This is a test file from host" > test.txt
+
+# Step 2: Run Ubuntu container with mounted directory
+docker run -it -v $(pwd):/data ubuntu:latest bash
+
+# Inside the container, you can now:
+ls /data                  # See the mounted directory
+cat /data/test.txt       # Read existing file
+echo "Created inside container" > /data/container.txt    # Create new file
+exit                     # Exit container
+
+# Step 3: Verify on host
+ls                       # Will show both test.txt and container.txt
+cat container.txt        # Read file created from container
